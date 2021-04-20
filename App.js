@@ -1,21 +1,50 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-native';
+
+import Header from './src/components/Header';
 
 export default function App() {
+  const [todoItem, setTodoItem] = useState('');
+  const [todoList, setTodoList] = useState([]);
+
+  const addTodoList = () => {
+    setTodoList([...todoList, todoItem]);
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View>
+      <Header title="Todo List" />
+      <View style={styles.container}>
+        <View>
+          <TextInput 
+            placeholder="Enter Todo Item"
+            onChangeText={text => setTodoItem(text)}
+            value={todoItem}
+          />
+          <Button 
+            title="Add Todo" 
+            onPress={addTodoList}
+          />
+        </View>
+        <ScrollView>
+          {
+            todoList.map(todo => 
+              <View key={todo}>
+                <Text>{ todo }</Text>
+              </View>
+            )
+          }
+        </ScrollView>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 50,
   },
 });
